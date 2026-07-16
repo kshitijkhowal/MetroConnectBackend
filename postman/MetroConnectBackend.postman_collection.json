@@ -42,8 +42,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/health",
-              "host": ["{{baseUrl}}"],
-              "path": ["health"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
             },
             "description": "Liveness probe. No auth required."
           },
@@ -61,8 +65,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/community/contributors",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "community", "contributors"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "community",
+                "contributors"
+              ]
             },
             "description": "Public list of community contributors. No auth required."
           },
@@ -80,8 +90,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/release-notes?page=1&limit=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "release-notes"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "release-notes"
+              ],
               "query": [
                 {
                   "key": "page",
@@ -97,7 +112,48 @@
             },
             "description": "Paginated release notes, newest version_code first. No auth required."
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — page 1",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/release-notes?page=1&limit=10",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "release-notes"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "description": "1-based page number (default 1)"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10",
+                      "description": "Items per page (default 10, max 50)"
+                    }
+                  ]
+                },
+                "description": "Paginated release notes, newest version_code first. No auth required."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"releaseNotes\": [\n    {\n      \"version\": \"1.2.4\",\n      \"versionCode\": 34,\n      \"releaseDate\": null,\n      \"icons\": [\n        \"assets/icons/metroIcons/NamoBharatIcon.tsx\"\n      ],\n      \"features\": [\n        {\n          \"id\": 1,\n          \"title\": \"Magenta Line extension stations are now available\"\n        },\n        {\n          \"id\": 2,\n          \"title\": \"Namo Bharat Line location improvement\"\n        }\n      ]\n    },\n    {\n      \"version\": \"1.2.3\",\n      \"versionCode\": 33,\n      \"releaseDate\": null,\n      \"icons\": [\n        \"assets/icons/metroIcons/NamoBharatIcon.tsx\"\n      ],\n      \"features\": [\n        {\n          \"id\": 1,\n          \"title\": \"Plan journeys on the Namo Bharat Line\"\n        },\n        {\n          \"id\": 2,\n          \"title\": \"Updated fare information for new routes\"\n        },\n        {\n          \"id\": 3,\n          \"title\": \"New corridor options for better trip planning\"\n        }\n      ]\n    }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10,\n    \"total\": 28,\n    \"totalPages\": 3,\n    \"hasNextPage\": true,\n    \"hasPreviousPage\": false\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Get release note by version code",
@@ -106,12 +162,48 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/release-notes/{{versionCode}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "release-notes", "{{versionCode}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "release-notes",
+                "{{versionCode}}"
+              ]
             },
             "description": "Fetch a single release note by Android versionCode. No auth required."
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — versionCode 34",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/release-notes/{{versionCode}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "release-notes",
+                    "{{versionCode}}"
+                  ]
+                },
+                "description": "Fetch a single release note by Android versionCode. No auth required."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"releaseNote\": {\n    \"version\": \"1.2.4\",\n    \"versionCode\": 34,\n    \"releaseDate\": null,\n    \"icons\": [\n      \"assets/icons/metroIcons/NamoBharatIcon.tsx\"\n    ],\n    \"features\": [\n      {\n        \"id\": 1,\n        \"title\": \"Magenta Line extension stations are now available\"\n      },\n      {\n        \"id\": 2,\n        \"title\": \"Namo Bharat Line location improvement\"\n      }\n    ]\n  }\n}"
+            }
+          ]
         }
       ]
     },
@@ -164,8 +256,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/google",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "auth", "google"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "google"
+              ]
             },
             "description": "Exchange a Google ID token for a Supabase session and upsert the profile.\n\nSet `googleIdToken` in the environment (or collection variables) first."
           },
@@ -217,8 +315,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/refresh",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "auth", "refresh"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
             },
             "description": "Rotate the session using a refresh token. Updates stored tokens on success."
           },
@@ -241,8 +345,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/auth/me",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "auth", "me"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
             },
             "description": "Return the current user and profile. Requires Bearer access token."
           },
@@ -265,8 +375,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/auth/logout",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "auth", "logout"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
             },
             "description": "Invalidate the current session (best-effort). Expects 204."
           },
@@ -294,8 +410,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/users/me",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users", "me"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "me"
+              ]
             },
             "description": "Fetch the authenticated user's profile row."
           },
@@ -318,8 +440,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/users/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{userId}}"
+              ]
             },
             "description": "Fetch a profile by id. Only your own id is allowed (403 otherwise)."
           },
@@ -347,8 +475,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/quick-stations",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "quick-stations"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quick-stations"
+              ]
             },
             "description": "Fetch all quick stations for the authenticated user."
           },
@@ -371,8 +504,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/quick-stations/{{quickStationId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "quick-stations", "{{quickStationId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quick-stations",
+                "{{quickStationId}}"
+              ]
             },
             "description": "Fetch one quick station by id."
           },
@@ -426,8 +565,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/quick-stations",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "quick-stations"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quick-stations"
+              ]
             },
             "description": "Create a quick station for the authenticated user."
           },
@@ -464,8 +608,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/quick-stations/{{quickStationId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "quick-stations", "{{quickStationId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quick-stations",
+                "{{quickStationId}}"
+              ]
             },
             "description": "Update a quick station. If cloud data is newer, the API returns 409 and the latest station payload."
           },
@@ -488,8 +638,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/quick-stations/{{quickStationId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "quick-stations", "{{quickStationId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quick-stations",
+                "{{quickStationId}}"
+              ]
             },
             "description": "Delete a quick station by id."
           },

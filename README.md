@@ -23,7 +23,7 @@ npm run dev
    - [`sql/003_community_contributors.sql`](sql/003_community_contributors.sql)
    - [`sql/004_release_notes.sql`](sql/004_release_notes.sql)
 
-4. Enable **Google** under Authentication → Providers. Use the same Web client ID as the app (`GOOGLE_WEB_CLIENT_ID`).
+4. Enable **Google** under Authentication → Providers in the Supabase Dashboard, using the same Web client ID as the app.
 
 ## Endpoints
 
