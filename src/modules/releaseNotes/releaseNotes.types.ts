@@ -1,6 +1,5 @@
 export type ReleaseFeature = {
   id: number;
-  icon: string;
   title: string;
 };
 
@@ -9,6 +8,7 @@ export type ReleaseNoteRow = {
   version: string;
   version_code: number;
   release_date: string | null;
+  icons: string[];
   features: ReleaseFeature[];
   created_at: string;
   updated_at: string;
@@ -18,6 +18,7 @@ export type ReleaseNote = {
   version: string;
   versionCode: number;
   releaseDate: string | null;
+  icons: string[];
   features: ReleaseFeature[];
 };
 

@@ -7,6 +7,14 @@ import type {
   ReleaseNoteRow,
 } from './releaseNotes.types.js';
 
+function mapIcons(raw: unknown): string[] {
+  if (!Array.isArray(raw)) {
+    return [];
+  }
+
+  return raw.filter((item): item is string => typeof item === 'string');
+}
+
 function mapFeatures(raw: unknown): ReleaseFeature[] {
   if (!Array.isArray(raw)) {
     return [];
@@ -16,7 +24,6 @@ function mapFeatures(raw: unknown): ReleaseFeature[] {
     const feature = (item ?? {}) as Partial<ReleaseFeature>;
     return {
       id: typeof feature.id === 'number' ? feature.id : index + 1,
-      icon: typeof feature.icon === 'string' ? feature.icon : '',
       title: typeof feature.title === 'string' ? feature.title : '',
     };
   });
@@ -27,6 +34,7 @@ function mapReleaseNote(row: ReleaseNoteRow): ReleaseNote {
     version: row.version,
     versionCode: row.version_code,
     releaseDate: row.release_date,
+    icons: mapIcons(row.icons),
     features: mapFeatures(row.features),
   };
 }
