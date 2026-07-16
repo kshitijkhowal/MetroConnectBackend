@@ -3,6 +3,7 @@ import express from 'express';
 import { env } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import authRouter from './modules/auth/auth.routes.js';
+import quickStationsRouter from './modules/quickStations/quickStations.routes.js';
 import usersRouter from './modules/users/users.routes.js';
 
 export function createApp() {
@@ -26,6 +27,7 @@ export function createApp() {
   });
 
   app.use('/api/auth', authRouter);
+  app.use('/api/quick-stations', quickStationsRouter);
   app.use('/api/users', usersRouter);
 
   app.use(errorHandler);
