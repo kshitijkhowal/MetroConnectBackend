@@ -48,6 +48,25 @@
       ]
     },
     {
+      "name": "Community",
+      "item": [
+        {
+          "name": "List contributors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/community/contributors",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "community", "contributors"]
+            },
+            "description": "Public list of community contributors. No auth required."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Auth",
       "item": [
         {
@@ -254,6 +273,176 @@
               "path": ["api", "users", "{{userId}}"]
             },
             "description": "Fetch a profile by id. Only your own id is allowed (403 otherwise)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Quick Stations",
+      "item": [
+        {
+          "name": "List quick stations",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quick-stations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "quick-stations"]
+            },
+            "description": "Fetch all quick stations for the authenticated user."
+          },
+          "response": []
+        },
+        {
+          "name": "Get quick station by id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quick-stations/{{quickStationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "quick-stations", "{{quickStationId}}"]
+            },
+            "description": "Fetch one quick station by id."
+          },
+          "response": []
+        },
+        {
+          "name": "Create quick station",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data.station?.id) {",
+                  "    pm.collectionVariables.set('quickStationId', data.station.id);",
+                  "    pm.environment.set('quickStationId', data.station.id);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"qs-demo-1\",\n  \"nickname\": \"Home\",\n  \"stationId\": 201,\n  \"stationName\": \"Noida Electronic City\",\n  \"icon\": \"assets/icons/QuickSelectIcons/HomeIcon.tsx\",\n  \"iconColor\": \"#2563EB\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/quick-stations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "quick-stations"]
+            },
+            "description": "Create a quick station for the authenticated user."
+          },
+          "response": []
+        },
+        {
+          "name": "Update quick station",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nickname\": \"Home Updated\",\n  \"stationId\": 201,\n  \"stationName\": \"Noida Electronic City\",\n  \"icon\": \"assets/icons/QuickSelectIcons/HomeIcon.tsx\",\n  \"iconColor\": \"#2563EB\",\n  \"updatedAt\": \"2026-01-01T00:00:00.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/quick-stations/{{quickStationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "quick-stations", "{{quickStationId}}"]
+            },
+            "description": "Update a quick station. If cloud data is newer, the API returns 409 and the latest station payload."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete quick station",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quick-stations/{{quickStationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "quick-stations", "{{quickStationId}}"]
+            },
+            "description": "Delete a quick station by id."
           },
           "response": []
         }
