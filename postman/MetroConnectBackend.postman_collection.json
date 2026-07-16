@@ -48,6 +48,25 @@
       ]
     },
     {
+      "name": "Community",
+      "item": [
+        {
+          "name": "List contributors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/community/contributors",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "community", "contributors"]
+            },
+            "description": "Public list of community contributors. No auth required."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Auth",
       "item": [
         {
