@@ -17,7 +17,11 @@ npm install
 npm run dev
 ```
 
-3. In Supabase SQL editor, run [`sql/001_profiles.sql`](sql/001_profiles.sql).
+3. In Supabase SQL editor, run in order:
+   - [`sql/001_profiles.sql`](sql/001_profiles.sql)
+   - [`sql/002_quick_stations.sql`](sql/002_quick_stations.sql)
+   - [`sql/003_community_contributors.sql`](sql/003_community_contributors.sql)
+   - [`sql/004_release_notes.sql`](sql/004_release_notes.sql)
 
 4. Enable **Google** under Authentication → Providers. Use the same Web client ID as the app (`GOOGLE_WEB_CLIENT_ID`).
 
@@ -32,6 +36,10 @@ npm run dev
 | `GET` | `/api/auth/me` | Bearer | Current user + profile |
 | `GET` | `/api/users/me` | Bearer | Profile row |
 | `GET` | `/api/users/:id` | Bearer | Own profile only |
+| `GET` | `/api/community/contributors` | — | Community contributors |
+| `GET` | `/api/release-notes?page=&limit=` | — | Paginated release notes (newest first) |
+| `GET` | `/api/release-notes/:versionCode` | — | Single release note by version code |
+| `GET` | `/api/quick-stations` | Bearer | List quick stations |
 
 ## Postman
 
