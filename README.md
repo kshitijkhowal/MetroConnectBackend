@@ -22,8 +22,9 @@ npm run dev
    - [`sql/002_quick_stations.sql`](sql/002_quick_stations.sql)
    - [`sql/003_community_contributors.sql`](sql/003_community_contributors.sql)
    - [`sql/004_release_notes.sql`](sql/004_release_notes.sql)
+   - [`sql/006_community_developers.sql`](sql/006_community_developers.sql)
 
-4. Enable **Google** under Authentication → Providers. Use the same Web client ID as the app (`GOOGLE_WEB_CLIENT_ID`).
+4. Enable **Google** under Authentication → Providers in the Supabase Dashboard, using the same Web client ID as the app.
 
 ## Endpoints
 
@@ -37,6 +38,7 @@ npm run dev
 | `GET` | `/api/users/me` | Bearer | Profile row |
 | `GET` | `/api/users/:id` | Bearer | Own profile only |
 | `GET` | `/api/community/contributors` | — | Community contributors |
+| `GET` | `/api/community/developers` | — | Community developers (with positions) |
 | `GET` | `/api/release-notes?page=&limit=` | — | Paginated release notes (newest first) |
 | `GET` | `/api/release-notes/:versionCode` | — | Single release note by version code |
 | `GET` | `/api/quick-stations` | Bearer | List quick stations |
