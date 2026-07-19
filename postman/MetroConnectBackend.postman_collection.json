@@ -77,6 +77,26 @@
             "description": "Public list of community contributors. No auth required."
           },
           "response": []
+        },
+        {
+          "name": "List developers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/community/developers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "community",
+                "developers"
+              ]
+            },
+            "description": "Public list of community developers with positions. No auth required."
+          },
+          "response": []
         }
       ]
     },

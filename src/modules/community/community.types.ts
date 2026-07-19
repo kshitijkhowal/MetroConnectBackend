@@ -16,3 +16,24 @@ export type ContributorsResponse = {
   contributors: Contributor[];
   fetchedAt: string;
 };
+
+export type DeveloperRow = {
+  id: string;
+  name: string;
+  avatar: string | null;
+  positions: string[];
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Developer = {
+  name: string;
+  avatar: string | null;
+  positions: string[];
+};
+
+export type DevelopersResponse = {
+  developers: Developer[];
+  fetchedAt: string;
+};
