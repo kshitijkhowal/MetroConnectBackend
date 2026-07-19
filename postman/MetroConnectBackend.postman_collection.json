@@ -228,6 +228,51 @@
       ]
     },
     {
+      "name": "Release Notes",
+      "item": [
+        {
+          "name": "List release notes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/release-notes?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "release-notes"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "1-based page number (default 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page (default 10, max 50)"
+                }
+              ]
+            },
+            "description": "Paginated release notes, newest version_code first. No auth required."
+          },
+          "response": []
+        },
+        {
+          "name": "Get release note by version code",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/release-notes/{{versionCode}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "release-notes", "{{versionCode}}"]
+            },
+            "description": "Fetch a single release note by Android versionCode. No auth required."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Auth",
       "item": [
         {
