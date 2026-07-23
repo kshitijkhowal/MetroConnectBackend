@@ -8,7 +8,9 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "admin": "npm run dev --prefix admin",
+    "admin:install": "npm install --prefix admin"
   },
   "engines": {
     "node": ">=20"

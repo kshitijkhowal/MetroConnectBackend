@@ -1,0 +1,311 @@
+:root {
+  color-scheme: light;
+  font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.45;
+  font-weight: 400;
+  color: #1a1f2e;
+  background: #eef1f6;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: #152033;
+  color: #f4f7fb;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar h1 {
+  margin: 0;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.sidebar p {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: #9db0c9;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.nav button {
+  text-align: left;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  background: transparent;
+  color: #d7e2f0;
+}
+
+.nav button.active,
+.nav button:hover {
+  background: #243652;
+  color: #fff;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}
+
+.sidebar-footer button {
+  width: 100%;
+  border: 1px solid #3a4f6d;
+  background: transparent;
+  color: #d7e2f0;
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+}
+
+.main {
+  padding: 1.75rem 2rem 2.5rem;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #d7dee8;
+  border-radius: 12px;
+  padding: 1.25rem 1.35rem;
+}
+
+.panel h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+}
+
+.panel .muted {
+  margin: 0 0 1.25rem;
+  color: #66758a;
+  font-size: 0.9rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.card-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.person-card {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #fafbfd;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #d9e2ef;
+  display: grid;
+  place-items: center;
+  color: #44556d;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.person-card h3 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.person-card p {
+  margin: 0.2rem 0 0;
+  color: #66758a;
+  font-size: 0.85rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.tag {
+  background: #e8eef8;
+  color: #2f4a6d;
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.75rem;
+}
+
+.form {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 560px;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 560;
+}
+
+input,
+textarea {
+  border: 1px solid #c9d3e0;
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  background: #fff;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid #9bb6df;
+  border-color: #7f9fcb;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.row input {
+  flex: 1;
+}
+
+.primary {
+  border: 0;
+  background: #1f4e8c;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.65rem 0.95rem;
+  font-weight: 600;
+}
+
+.primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ghost {
+  border: 1px solid #c9d3e0;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+}
+
+.status {
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+}
+
+.status.error {
+  color: #a12626;
+}
+
+.status.ok {
+  color: #17633b;
+}
+
+.login-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  width: min(420px, 100%);
+  background: #fff;
+  border: 1px solid #d7dee8;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.login-card h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.3rem;
+}
+
+.release-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.85rem;
+  background: #fafbfd;
+}
+
+.release-item h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.release-item ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    padding-bottom: 1rem;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .main {
+    padding: 1.25rem;
+  }
+}

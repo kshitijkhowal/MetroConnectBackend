@@ -42,6 +42,28 @@ npm run dev
 | `GET` | `/api/release-notes?page=&limit=` | — | Paginated release notes (newest first) |
 | `GET` | `/api/release-notes/:versionCode` | — | Single release note by version code |
 | `GET` | `/api/quick-stations` | Bearer | List quick stations |
+| `GET` | `/api/admin/people` | `X-Admin-Secret` | List contributors + developers |
+| `POST` | `/api/admin/contributors` | `X-Admin-Secret` | Add contributor |
+| `POST` | `/api/admin/developers` | `X-Admin-Secret` | Add developer |
+| `GET` | `/api/admin/release-notes` | `X-Admin-Secret` | List release notes |
+| `POST` | `/api/admin/release-notes` | `X-Admin-Secret` | Add release note |
+
+## Local admin dashboard
+
+A small Vite app in [`admin/`](admin/) for adding release notes / people and viewing contributors & developers. **Local use only.**
+
+1. Set `ADMIN_SECRET` in `.env` (see `.env.example`). Do **not** set this on production hosts.
+2. Start the API: `npm run dev`
+3. In another terminal:
+
+```bash
+npm run admin:install   # first time only
+npm run admin
+```
+
+4. Open http://localhost:5173 and enter the same `ADMIN_SECRET`.
+
+The admin UI proxies `/api` to `http://localhost:3000`.
 
 ## Postman
 
