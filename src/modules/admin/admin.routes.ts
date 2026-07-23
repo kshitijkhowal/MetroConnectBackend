@@ -11,5 +11,6 @@ adminRouter.post('/contributors', adminController.createContributor);
 adminRouter.post('/developers', adminController.createDeveloper);
 adminRouter.get('/release-notes', adminController.listReleaseNotes);
 adminRouter.post('/release-notes', adminController.createReleaseNote);
+adminRouter.put('/release-notes/:versionCode', adminController.updateReleaseNote);
 
 export default adminRouter;

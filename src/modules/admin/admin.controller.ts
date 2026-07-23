@@ -128,3 +128,31 @@ export async function createReleaseNote(
     next(err);
   }
 }
+
+const versionCodeParamSchema = z.object({
+  versionCode: z.coerce.number().int().positive(),
+});
+
+export async function updateReleaseNote(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  try {
+    const { versionCode } = versionCodeParamSchema.parse(req.params);
+    const body = releaseNoteBodySchema.parse(req.body);
+    const releaseNote = await adminService.updateReleaseNote(versionCode, {
+      version: body.version,
+      versionCode: body.versionCode,
+      releaseDate: body.releaseDate?.trim() ? body.releaseDate.trim() : null,
+      icons: body.icons,
+      features: body.features.map((f, index) => ({
+        id: f.id ?? index + 1,
+        title: f.title,
+      })),
+    });
+    res.status(200).json({ releaseNote });
+  } catch (err) {
+    next(err);
+  }
+}

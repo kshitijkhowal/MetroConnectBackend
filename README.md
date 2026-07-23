@@ -47,10 +47,11 @@ npm run dev
 | `POST` | `/api/admin/developers` | `X-Admin-Secret` | Add developer |
 | `GET` | `/api/admin/release-notes` | `X-Admin-Secret` | List release notes |
 | `POST` | `/api/admin/release-notes` | `X-Admin-Secret` | Add release note |
+| `PUT` | `/api/admin/release-notes/:versionCode` | `X-Admin-Secret` | Update release note |
 
 ## Local admin dashboard
 
-A small Vite app in [`admin/`](admin/) for adding release notes / people and viewing contributors & developers. **Local use only.**
+A small Vite app in [`admin/`](admin/) for adding/editing release notes / people and viewing contributors & developers. **Local use only.**
 
 1. Set `ADMIN_SECRET` in `.env` (see `.env.example`). Do **not** set this on production hosts.
 2. Start the API: `npm run dev`

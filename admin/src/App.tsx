@@ -318,6 +318,7 @@ function AddDeveloperPanel() {
 
 function ReleaseNotesPanel() {
   const [notes, setNotes] = useState<ReleaseNote[]>([]);
+  const [editingVersionCode, setEditingVersionCode] = useState<number | null>(null);
   const [version, setVersion] = useState('');
   const [versionCode, setVersionCode] = useState('');
   const [releaseDate, setReleaseDate] = useState('');
@@ -327,6 +328,8 @@ function ReleaseNotesPanel() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [listError, setListError] = useState<string | null>(null);
+
+  const isEditing = editingVersionCode !== null;
 
   const load = useCallback(async () => {
     setListError(null);
@@ -344,6 +347,29 @@ function ReleaseNotesPanel() {
     void load();
   }, [load]);
 
+  function resetForm() {
+    setEditingVersionCode(null);
+    setVersion('');
+    setVersionCode('');
+    setReleaseDate('');
+    setIconsText('');
+    setFeatureTitles(['']);
+  }
+
+  function startEdit(note: ReleaseNote) {
+    setEditingVersionCode(note.versionCode);
+    setVersion(note.version);
+    setVersionCode(String(note.versionCode));
+    setReleaseDate(note.releaseDate ?? '');
+    setIconsText(note.icons.join(', '));
+    setFeatureTitles(
+      note.features.length > 0 ? note.features.map((f) => f.title) : [''],
+    );
+    setStatus(null);
+    setError(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -359,26 +385,38 @@ function ReleaseNotesPanel() {
       .map((i) => i.trim())
       .filter(Boolean);
 
+    const payload = {
+      version: version.trim(),
+      versionCode: Number(versionCode),
+      releaseDate: releaseDate.trim() || null,
+      icons,
+      features,
+    };
+
     try {
-      await adminFetch('/api/admin/release-notes', {
-        method: 'POST',
-        body: JSON.stringify({
-          version: version.trim(),
-          versionCode: Number(versionCode),
-          releaseDate: releaseDate.trim() || null,
-          icons,
-          features,
-        }),
-      });
-      setStatus(`Added release ${version.trim()} (${versionCode})`);
-      setVersion('');
-      setVersionCode('');
-      setReleaseDate('');
-      setIconsText('');
-      setFeatureTitles(['']);
+      if (isEditing) {
+        await adminFetch(`/api/admin/release-notes/${editingVersionCode}`, {
+          method: 'PUT',
+          body: JSON.stringify(payload),
+        });
+        setStatus(`Updated release ${payload.version} (${payload.versionCode})`);
+      } else {
+        await adminFetch('/api/admin/release-notes', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        });
+        setStatus(`Added release ${payload.version} (${payload.versionCode})`);
+      }
+      resetForm();
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to add release note');
+      setError(
+        err instanceof Error
+          ? err.message
+          : isEditing
+            ? 'Failed to update release note'
+            : 'Failed to add release note',
+      );
     } finally {
       setLoading(false);
     }
@@ -387,7 +425,11 @@ function ReleaseNotesPanel() {
   return (
     <section className="panel">
       <h2>Release notes</h2>
-      <p className="muted">Add a new release, then browse recent notes below.</p>
+      <p className="muted">
+        {isEditing
+          ? `Editing version code ${editingVersionCode}. Save to update, or cancel to add a new release instead.`
+          : 'Add a new release, or edit an existing one from the list below.'}
+      </p>
 
       <form className="form" onSubmit={handleSubmit}>
         <label>
@@ -463,9 +505,29 @@ function ReleaseNotesPanel() {
           </button>
         </div>
 
-        <button className="primary" type="submit" disabled={loading}>
-          {loading ? 'Saving…' : 'Add release note'}
-        </button>
+        <div className="row">
+          <button className="primary" type="submit" disabled={loading}>
+            {loading
+              ? 'Saving…'
+              : isEditing
+                ? 'Update release note'
+                : 'Add release note'}
+          </button>
+          {isEditing ? (
+            <button
+              className="ghost"
+              type="button"
+              disabled={loading}
+              onClick={() => {
+                resetForm();
+                setStatus(null);
+                setError(null);
+              }}
+            >
+              Cancel
+            </button>
+          ) : null}
+        </div>
       </form>
 
       {status ? <p className="status ok">{status}</p> : null}
@@ -482,10 +544,23 @@ function ReleaseNotesPanel() {
         <div className="card-list" style={{ marginTop: '0.75rem' }}>
           {notes.map((note) => (
             <article className="release-item" key={note.versionCode}>
-              <h3>
-                {note.version}{' '}
-                <span className="muted">(code {note.versionCode})</span>
-              </h3>
+              <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <h3>
+                  {note.version}{' '}
+                  <span className="muted">(code {note.versionCode})</span>
+                </h3>
+                <button
+                  className="ghost"
+                  type="button"
+                  onClick={() => startEdit(note)}
+                  disabled={loading}
+                >
+                  {editingVersionCode === note.versionCode ? 'Editing…' : 'Edit'}
+                </button>
+              </div>
+              {note.releaseDate ? (
+                <p className="muted">Released: {note.releaseDate}</p>
+              ) : null}
               {note.icons.length > 0 ? (
                 <p className="muted">Icons: {note.icons.join(', ')}</p>
               ) : null}
