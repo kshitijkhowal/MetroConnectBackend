@@ -45,6 +45,7 @@ npm run dev
 | `GET` | `/api/admin/people` | `X-Admin-Secret` | List contributors + developers |
 | `POST` | `/api/admin/contributors` | `X-Admin-Secret` | Add contributor |
 | `POST` | `/api/admin/developers` | `X-Admin-Secret` | Add developer |
+| `DELETE` | `/api/admin/developers` | `X-Admin-Secret` | Remove developer by `{ name }` |
 | `GET` | `/api/admin/release-notes` | `X-Admin-Secret` | List release notes |
 | `POST` | `/api/admin/release-notes` | `X-Admin-Secret` | Add release note |
 | `PUT` | `/api/admin/release-notes/:versionCode` | `X-Admin-Secret` | Update release note |

@@ -9,6 +9,7 @@ adminRouter.use(requireAdmin);
 adminRouter.get('/people', adminController.listPeople);
 adminRouter.post('/contributors', adminController.createContributor);
 adminRouter.post('/developers', adminController.createDeveloper);
+adminRouter.delete('/developers', adminController.deleteDeveloper);
 adminRouter.get('/release-notes', adminController.listReleaseNotes);
 adminRouter.post('/release-notes', adminController.createReleaseNote);
 adminRouter.put('/release-notes/:versionCode', adminController.updateReleaseNote);

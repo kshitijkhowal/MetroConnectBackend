@@ -143,6 +143,27 @@ export async function createDeveloper(input: CreateDeveloperInput): Promise<Deve
   };
 }
 
+export async function deleteDeveloperByName(name: string): Promise<void> {
+  const trimmed = name.trim();
+  if (!trimmed) {
+    throw new ApiError(400, 'Developer name is required', 'VALIDATION_ERROR');
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('community_developers')
+    .delete()
+    .eq('name', trimmed)
+    .select('id');
+
+  if (error) {
+    throw new ApiError(500, error.message, 'DEVELOPER_DELETE_FAILED');
+  }
+
+  if (!data || data.length === 0) {
+    throw new ApiError(404, 'Developer not found', 'DEVELOPER_NOT_FOUND');
+  }
+}
+
 export async function listReleaseNotes(page: number, limit: number) {
   return releaseNotesService.listReleaseNotes(page, limit);
 }

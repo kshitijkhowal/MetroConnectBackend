@@ -98,15 +98,30 @@ function LoginGate({ onUnlock }: { onUnlock: () => void }) {
   );
 }
 
+const SWARAJ_DEVELOPER = {
+  name: 'Swaraj Choudhary',
+  avatar:
+    'https://res.cloudinary.com/dd0hln8f2/image/upload/v1784446622/f28471aa-eb35-44bd-b266-4ef44fff3995_el8znb.jpg',
+  positions: ['Backend', 'NodeJS'],
+  sortOrder: 1,
+} as const;
+
 function PeoplePanel() {
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [developers, setDevelopers] = useState<Developer[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [listError, setListError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [togglingSwaraj, setTogglingSwaraj] = useState(false);
+
+  const swarajPresent = developers.some(
+    (person) => person.name === SWARAJ_DEVELOPER.name,
+  );
 
   const load = useCallback(async () => {
     setLoading(true);
-    setError(null);
+    setListError(null);
     try {
       const data = await adminFetch<{
         contributors: Contributor[];
@@ -115,7 +130,7 @@ function PeoplePanel() {
       setContributors(data.contributors);
       setDevelopers(data.developers);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load people');
+      setListError(err instanceof Error ? err.message : 'Failed to load people');
     } finally {
       setLoading(false);
     }
@@ -125,6 +140,44 @@ function PeoplePanel() {
     void load();
   }, [load]);
 
+  async function toggleSwaraj() {
+    setTogglingSwaraj(true);
+    setStatus(null);
+    setActionError(null);
+
+    try {
+      if (swarajPresent) {
+        await adminFetch('/api/admin/developers', {
+          method: 'DELETE',
+          body: JSON.stringify({ name: SWARAJ_DEVELOPER.name }),
+        });
+        setStatus(`Removed “${SWARAJ_DEVELOPER.name}” from developers`);
+      } else {
+        await adminFetch('/api/admin/developers', {
+          method: 'POST',
+          body: JSON.stringify({
+            name: SWARAJ_DEVELOPER.name,
+            avatar: SWARAJ_DEVELOPER.avatar,
+            positions: [...SWARAJ_DEVELOPER.positions],
+            sortOrder: SWARAJ_DEVELOPER.sortOrder,
+          }),
+        });
+        setStatus(`Added “${SWARAJ_DEVELOPER.name}” to developers`);
+      }
+      await load();
+    } catch (err) {
+      setActionError(
+        err instanceof Error
+          ? err.message
+          : swarajPresent
+            ? 'Failed to remove developer'
+            : 'Failed to add developer',
+      );
+    } finally {
+      setTogglingSwaraj(false);
+    }
+  }
+
   return (
     <section className="panel">
       <div className="row" style={{ justifyContent: 'space-between' }}>
@@ -132,15 +185,31 @@ function PeoplePanel() {
           <h2>People</h2>
           <p className="muted">View community contributors and developers.</p>
         </div>
-        <button className="ghost" type="button" onClick={() => void load()}>
-          Refresh
-        </button>
+        <div className="row">
+          <button
+            className="ghost"
+            type="button"
+            onClick={() => void toggleSwaraj()}
+            disabled={loading || togglingSwaraj}
+          >
+            {togglingSwaraj
+              ? 'Working…'
+              : swarajPresent
+                ? `Remove ${SWARAJ_DEVELOPER.name}`
+                : `Add ${SWARAJ_DEVELOPER.name}`}
+          </button>
+          <button className="ghost" type="button" onClick={() => void load()}>
+            Refresh
+          </button>
+        </div>
       </div>
 
       {loading ? <p className="muted">Loading…</p> : null}
-      {error ? <p className="status error">{error}</p> : null}
+      {status ? <p className="status ok">{status}</p> : null}
+      {actionError ? <p className="status error">{actionError}</p> : null}
+      {listError ? <p className="status error">{listError}</p> : null}
 
-      {!loading && !error ? (
+      {!loading && !listError ? (
         <div className="grid-2">
           <div>
             <h3>Developers ({developers.length})</h3>

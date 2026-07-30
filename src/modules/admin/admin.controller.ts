@@ -92,6 +92,24 @@ export async function createDeveloper(
   }
 }
 
+const deleteDeveloperBodySchema = z.object({
+  name: z.string().trim().min(1),
+});
+
+export async function deleteDeveloper(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  try {
+    const body = deleteDeveloperBodySchema.parse(req.body);
+    await adminService.deleteDeveloperByName(body.name);
+    res.status(200).json({ deleted: true, name: body.name });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function listReleaseNotes(
   req: Request,
   res: Response,
