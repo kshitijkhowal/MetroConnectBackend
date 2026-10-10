@@ -4,6 +4,7 @@ import { env } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import authRouter from './modules/auth/auth.routes.js';
 import adminRouter from './modules/admin/admin.routes.js';
+import appConfigRouter from './modules/appConfig/appConfig.routes.js';
 import communityRouter from './modules/community/community.routes.js';
 import quickStationsRouter from './modules/quickStations/quickStations.routes.js';
 import releaseNotesRouter from './modules/releaseNotes/releaseNotes.routes.js';
@@ -31,6 +32,7 @@ export function createApp() {
 
   app.use('/api/auth', authRouter);
   app.use('/api/admin', adminRouter);
+  app.use('/api/app-config', appConfigRouter);
   app.use('/api/community', communityRouter);
   app.use('/api/quick-stations', quickStationsRouter);
   app.use('/api/release-notes', releaseNotesRouter);

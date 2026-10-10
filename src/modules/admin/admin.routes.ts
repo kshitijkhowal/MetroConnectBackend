@@ -11,5 +11,7 @@ adminRouter.post('/contributors', adminController.createContributor);
 adminRouter.post('/developers', adminController.createDeveloper);
 adminRouter.get('/release-notes', adminController.listReleaseNotes);
 adminRouter.post('/release-notes', adminController.createReleaseNote);
+adminRouter.get('/app-config', adminController.getAppConfig);
+adminRouter.put('/app-config', adminController.updateAppConfig);
 
 export default adminRouter;
