@@ -13,5 +13,7 @@ adminRouter.delete('/developers', adminController.deleteDeveloper);
 adminRouter.get('/release-notes', adminController.listReleaseNotes);
 adminRouter.post('/release-notes', adminController.createReleaseNote);
 adminRouter.put('/release-notes/:versionCode', adminController.updateReleaseNote);
+adminRouter.get('/app-config', adminController.getAppConfig);
+adminRouter.put('/app-config', adminController.updateAppConfig);
 
 export default adminRouter;

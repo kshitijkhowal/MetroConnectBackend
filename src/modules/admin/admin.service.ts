@@ -1,7 +1,9 @@
 import { supabaseAdmin } from '../../lib/supabase.js';
 import { ApiError } from '../../utils/ApiError.js';
+import type { AppConfigInput } from '../appConfig/appConfig.schema.js';
 import type { Contributor, Developer } from '../community/community.types.js';
 import type { ReleaseFeature, ReleaseNote } from '../releaseNotes/releaseNotes.types.js';
+import * as appConfigService from '../appConfig/appConfig.service.js';
 import * as communityService from '../community/community.service.js';
 import * as releaseNotesService from '../releaseNotes/releaseNotes.service.js';
 
@@ -191,6 +193,14 @@ export async function createReleaseNote(input: CreateReleaseNoteInput): Promise<
   }
 
   return mapReleaseNoteRow(data as Record<string, unknown>, features);
+}
+
+export async function getAppConfig() {
+  return appConfigService.getAppConfig();
+}
+
+export async function upsertAppConfig(input: AppConfigInput) {
+  return appConfigService.upsertAppConfig(input);
 }
 
 export async function updateReleaseNote(
