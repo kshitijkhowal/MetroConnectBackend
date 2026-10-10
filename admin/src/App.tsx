@@ -853,9 +853,9 @@ function AppConfigPanel() {
             />
           </label>
           <p className="muted">
-            Minimum version below the installed version opens the update screen. Force update
-            blocks skipping it. Latest version is what Settings uses for “download the latest
-            version”.
+            If the installed app is older than the minimum version, the update screen opens.
+            Force update blocks skipping it. Latest version is what Settings uses for the
+            download prompt.
           </p>
           <button className="primary" type="submit" disabled={saving}>
             {saving ? 'Saving…' : 'Save app config'}
