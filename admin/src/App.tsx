@@ -6,7 +6,7 @@ import {
   setAdminSecret,
 } from './api';
 
-type Tab = 'people' | 'contributor' | 'developer' | 'releases';
+type Tab = 'people' | 'contributor' | 'developer' | 'releases' | 'appConfig';
 
 type Contributor = {
   name: string;
@@ -31,6 +31,36 @@ type ReleaseNote = {
   icons: string[];
   features: ReleaseFeature[];
 };
+
+type PlatformConfig = {
+  forceUpdate: boolean;
+  latestVersion: string;
+  minimumVersion: string;
+  updateUrl: string;
+};
+
+type AppConfig = {
+  android: PlatformConfig;
+  ios: PlatformConfig;
+  backend: { baseUrl: string };
+  releasedAt: string | null;
+  updateMessage: string;
+  updateTitle: string;
+};
+
+function toDatetimeLocal(iso: string | null): string {
+  if (!iso) {
+    return '';
+  }
+
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) {
+    return '';
+  }
+
+  const pad = (value: number) => String(value).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
 
 function initials(name: string): string {
   return name
@@ -502,6 +532,198 @@ function ReleaseNotesPanel() {
   );
 }
 
+function PlatformFields({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: PlatformConfig;
+  onChange: (next: PlatformConfig) => void;
+}) {
+  return (
+    <div className="platform-card">
+      <h3>{label}</h3>
+      <label className="check">
+        <input
+          type="checkbox"
+          checked={value.forceUpdate}
+          onChange={(e) => onChange({ ...value, forceUpdate: e.target.checked })}
+        />
+        Force update
+      </label>
+      <label>
+        Latest version
+        <input
+          value={value.latestVersion}
+          onChange={(e) => onChange({ ...value, latestVersion: e.target.value })}
+          placeholder="1.6.1"
+          required
+        />
+      </label>
+      <label>
+        Minimum version
+        <input
+          value={value.minimumVersion}
+          onChange={(e) => onChange({ ...value, minimumVersion: e.target.value })}
+          placeholder="1.6.1"
+          required
+        />
+      </label>
+      <label>
+        Store URL
+        <input
+          value={value.updateUrl}
+          onChange={(e) => onChange({ ...value, updateUrl: e.target.value })}
+          placeholder="https://..."
+        />
+      </label>
+    </div>
+  );
+}
+
+function AppConfigPanel() {
+  const [android, setAndroid] = useState<PlatformConfig | null>(null);
+  const [ios, setIos] = useState<PlatformConfig | null>(null);
+  const [baseUrl, setBaseUrl] = useState('');
+  const [releasedAt, setReleasedAt] = useState('');
+  const [updateMessage, setUpdateMessage] = useState('');
+  const [updateTitle, setUpdateTitle] = useState('');
+  const [status, setStatus] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await adminFetch<{ appConfig: AppConfig }>('/api/admin/app-config');
+      setAndroid(data.appConfig.android);
+      setIos(data.appConfig.ios);
+      setBaseUrl(data.appConfig.backend.baseUrl);
+      setReleasedAt(toDatetimeLocal(data.appConfig.releasedAt));
+      setUpdateMessage(data.appConfig.updateMessage);
+      setUpdateTitle(data.appConfig.updateTitle);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load app config');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (!android || !ios) {
+      return;
+    }
+
+    setSaving(true);
+    setStatus(null);
+    setError(null);
+
+    try {
+      const data = await adminFetch<{ appConfig: AppConfig }>('/api/admin/app-config', {
+        method: 'PUT',
+        body: JSON.stringify({
+          android,
+          ios,
+          backend: { baseUrl: baseUrl.trim() },
+          releasedAt: releasedAt ? new Date(releasedAt).toISOString() : null,
+          updateMessage: updateMessage.trim(),
+          updateTitle: updateTitle.trim(),
+        }),
+      });
+      setAndroid(data.appConfig.android);
+      setIos(data.appConfig.ios);
+      setBaseUrl(data.appConfig.backend.baseUrl);
+      setReleasedAt(toDatetimeLocal(data.appConfig.releasedAt));
+      setStatus('Saved app config. The app reads this on the next launch.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save app config');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <section className="panel">
+      <div className="row" style={{ justifyContent: 'space-between' }}>
+        <div>
+          <h2>App config</h2>
+          <p className="muted">
+            Latest version, minimum version, and update copy. The app uses this on launch to
+            open the home screen or the update screen.
+          </p>
+        </div>
+        <button className="ghost" type="button" onClick={() => void load()} disabled={loading}>
+          Refresh
+        </button>
+      </div>
+
+      {loading ? <p className="muted">Loading…</p> : null}
+      {error ? <p className="status error">{error}</p> : null}
+
+      {!loading && android && ios ? (
+        <form className="form wide" onSubmit={handleSubmit}>
+          <div className="platform-grid">
+            <PlatformFields label="Android" value={android} onChange={setAndroid} />
+            <PlatformFields label="iOS" value={ios} onChange={setIos} />
+          </div>
+          <label>
+            Update title
+            <input
+              value={updateTitle}
+              onChange={(e) => setUpdateTitle(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Update message
+            <textarea
+              value={updateMessage}
+              onChange={(e) => setUpdateMessage(e.target.value)}
+              rows={3}
+              required
+            />
+          </label>
+          <label>
+            Released at (optional)
+            <input
+              type="datetime-local"
+              value={releasedAt}
+              onChange={(e) => setReleasedAt(e.target.value)}
+            />
+          </label>
+          <label>
+            Backend base URL
+            <input
+              value={baseUrl}
+              onChange={(e) => setBaseUrl(e.target.value)}
+              placeholder="https://metroconnectbackend.onrender.com"
+              required
+            />
+          </label>
+          <p className="muted">
+            Minimum version below the installed version opens the update screen. Force update
+            blocks skipping it. Latest version is what Settings uses for “download the latest
+            version”.
+          </p>
+          <button className="primary" type="submit" disabled={saving}>
+            {saving ? 'Saving…' : 'Save app config'}
+          </button>
+        </form>
+      ) : null}
+
+      {status ? <p className="status ok">{status}</p> : null}
+    </section>
+  );
+}
+
 export default function App() {
   const [unlocked, setUnlocked] = useState(() => Boolean(getAdminSecret()));
   const [tab, setTab] = useState<Tab>('people');
@@ -546,6 +768,13 @@ export default function App() {
           >
             Release notes
           </button>
+          <button
+            type="button"
+            className={tab === 'appConfig' ? 'active' : ''}
+            onClick={() => setTab('appConfig')}
+          >
+            App config
+          </button>
         </nav>
         <div className="sidebar-footer">
           <button
@@ -565,6 +794,7 @@ export default function App() {
         {tab === 'contributor' ? <AddContributorPanel /> : null}
         {tab === 'developer' ? <AddDeveloperPanel /> : null}
         {tab === 'releases' ? <ReleaseNotesPanel /> : null}
+        {tab === 'appConfig' ? <AppConfigPanel /> : null}
       </main>
     </div>
   );

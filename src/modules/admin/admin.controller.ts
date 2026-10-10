@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import { z } from 'zod';
+import { parseAppConfig } from '../appConfig/appConfig.schema.js';
 import * as adminService from './admin.service.js';
 
 const contributorBodySchema = z.object({
@@ -124,6 +125,32 @@ export async function createReleaseNote(
       })),
     });
     res.status(201).json({ releaseNote });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getAppConfig(
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  try {
+    const appConfig = await adminService.getAppConfig();
+    res.status(200).json({ appConfig });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function updateAppConfig(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  try {
+    const appConfig = await adminService.upsertAppConfig(parseAppConfig(req.body));
+    res.status(200).json({ appConfig });
   } catch (err) {
     next(err);
   }

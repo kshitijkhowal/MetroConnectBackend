@@ -23,6 +23,7 @@ npm run dev
    - [`sql/003_community_contributors.sql`](sql/003_community_contributors.sql)
    - [`sql/004_release_notes.sql`](sql/004_release_notes.sql)
    - [`sql/006_community_developers.sql`](sql/006_community_developers.sql)
+   - [`sql/007_app_config.sql`](sql/007_app_config.sql)
 
 4. Enable **Google** under Authentication → Providers in the Supabase Dashboard, using the same Web client ID as the app.
 
@@ -39,6 +40,7 @@ npm run dev
 | `GET` | `/api/users/:id` | Bearer | Own profile only |
 | `GET` | `/api/community/contributors` | — | Community contributors |
 | `GET` | `/api/community/developers` | — | Community developers (with positions) |
+| `GET` | `/api/app-config` | — | App version and update config (replaces Firebase Remote Config) |
 | `GET` | `/api/release-notes?page=&limit=` | — | Paginated release notes (newest first) |
 | `GET` | `/api/release-notes/:versionCode` | — | Single release note by version code |
 | `GET` | `/api/quick-stations` | Bearer | List quick stations |
@@ -47,10 +49,12 @@ npm run dev
 | `POST` | `/api/admin/developers` | `X-Admin-Secret` | Add developer |
 | `GET` | `/api/admin/release-notes` | `X-Admin-Secret` | List release notes |
 | `POST` | `/api/admin/release-notes` | `X-Admin-Secret` | Add release note |
+| `GET` | `/api/admin/app-config` | `X-Admin-Secret` | Read app version and update config |
+| `PUT` | `/api/admin/app-config` | `X-Admin-Secret` | Save app version and update config |
 
 ## Local admin dashboard
 
-A small Vite app in [`admin/`](admin/) for adding release notes / people and viewing contributors & developers. **Local use only.**
+A small Vite app in [`admin/`](admin/) for editing app config, release notes, and people. **Local use only.** The app config screen writes the same Supabase row that production reads, so a local admin session updates the live update gate.
 
 1. Set `ADMIN_SECRET` in `.env` (see `.env.example`). Do **not** set this on production hosts.
 2. Start the API: `npm run dev`
