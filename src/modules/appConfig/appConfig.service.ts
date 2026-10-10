@@ -22,9 +22,6 @@ function mapAppConfig(row: AppConfigRow): AppConfig {
       minimumVersion: row.ios_minimum_version,
       updateUrl: row.ios_update_url,
     },
-    backend: {
-      baseUrl: row.backend_base_url.replace(/\/$/, ''),
-    },
     releasedAt: row.released_at,
     updateMessage: row.update_message,
     updateTitle: row.update_title,
@@ -51,7 +48,6 @@ function toRow(input: AppConfigInput): Omit<AppConfigRow, 'created_at' | 'update
     ios_latest_version: input.ios.latestVersion,
     ios_minimum_version: input.ios.minimumVersion,
     ios_update_url: input.ios.updateUrl,
-    backend_base_url: input.backend.baseUrl.replace(/\/$/, ''),
     released_at: releasedAt,
     update_message: input.updateMessage,
     update_title: input.updateTitle,

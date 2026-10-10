@@ -16,9 +16,6 @@ const platformSchema = z.object({
 export const appConfigSchema = z.object({
   android: platformSchema,
   ios: platformSchema,
-  backend: z.object({
-    baseUrl: z.string().trim().url(),
-  }),
   releasedAt: z.union([z.string().trim().min(1), z.null()]).optional(),
   updateMessage: z.string().trim().min(1),
   updateTitle: z.string().trim().min(1),

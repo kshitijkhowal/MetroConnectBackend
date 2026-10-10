@@ -5,14 +5,9 @@ export type PlatformAppConfig = {
   updateUrl: string;
 };
 
-export type BackendConfig = {
-  baseUrl: string;
-};
-
 export type AppConfig = {
   android: PlatformAppConfig;
   ios: PlatformAppConfig;
-  backend: BackendConfig;
   releasedAt: string | null;
   updateMessage: string;
   updateTitle: string;
@@ -28,7 +23,6 @@ export type AppConfigRow = {
   ios_latest_version: string;
   ios_minimum_version: string;
   ios_update_url: string;
-  backend_base_url: string;
   released_at: string | null;
   update_message: string;
   update_title: string;
@@ -50,9 +44,6 @@ export const DEFAULT_APP_CONFIG: AppConfig = {
     latestVersion: '1.6.1',
     minimumVersion: '1.6.1',
     updateUrl: '',
-  },
-  backend: {
-    baseUrl: 'https://metroconnectbackend.onrender.com',
   },
   releasedAt: null,
   updateMessage: 'A new version of MetroConnect is available with improvements and bug fixes.',

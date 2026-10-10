@@ -11,7 +11,6 @@ create table if not exists public.app_config (
   ios_latest_version text not null,
   ios_minimum_version text not null,
   ios_update_url text not null default '',
-  backend_base_url text not null,
   released_at timestamptz,
   update_message text not null,
   update_title text not null,
@@ -21,8 +20,7 @@ create table if not exists public.app_config (
   constraint app_config_android_latest_version_format check (android_latest_version ~ '^\d+(\.\d+){1,3}$'),
   constraint app_config_android_minimum_version_format check (android_minimum_version ~ '^\d+(\.\d+){1,3}$'),
   constraint app_config_ios_latest_version_format check (ios_latest_version ~ '^\d+(\.\d+){1,3}$'),
-  constraint app_config_ios_minimum_version_format check (ios_minimum_version ~ '^\d+(\.\d+){1,3}$'),
-  constraint app_config_backend_base_url_format check (backend_base_url ~ '^https?://')
+  constraint app_config_ios_minimum_version_format check (ios_minimum_version ~ '^\d+(\.\d+){1,3}$')
 );
 
 alter table public.app_config enable row level security;
@@ -49,7 +47,7 @@ create trigger app_config_set_updated_at
   for each row
   execute function public.handle_app_config_updated_at();
 
--- Safe starter values: current store version, skippable update, production API.
+-- Safe starter values: current store version and a skippable update.
 -- Re-running this file does not overwrite a row you already edited.
 insert into public.app_config (
   id,
@@ -61,7 +59,6 @@ insert into public.app_config (
   ios_latest_version,
   ios_minimum_version,
   ios_update_url,
-  backend_base_url,
   released_at,
   update_message,
   update_title
@@ -76,7 +73,6 @@ values (
   '1.6.1',
   '1.6.1',
   '',
-  'https://metroconnectbackend.onrender.com',
   null,
   'A new version of MetroConnect is available with improvements and bug fixes.',
   'Update Available'

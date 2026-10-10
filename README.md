@@ -24,6 +24,7 @@ npm run dev
    - [`sql/004_release_notes.sql`](sql/004_release_notes.sql)
    - [`sql/006_community_developers.sql`](sql/006_community_developers.sql)
    - [`sql/007_app_config.sql`](sql/007_app_config.sql)
+   - [`sql/008_drop_backend_base_url.sql`](sql/008_drop_backend_base_url.sql) — only if `007` already ran with `backend_base_url`
 
 4. Enable **Google** under Authentication → Providers in the Supabase Dashboard, using the same Web client ID as the app.
 

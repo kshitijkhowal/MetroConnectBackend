@@ -42,7 +42,6 @@ type PlatformConfig = {
 type AppConfig = {
   android: PlatformConfig;
   ios: PlatformConfig;
-  backend: { baseUrl: string };
   releasedAt: string | null;
   updateMessage: string;
   updateTitle: string;
@@ -585,7 +584,6 @@ function PlatformFields({
 function AppConfigPanel() {
   const [android, setAndroid] = useState<PlatformConfig | null>(null);
   const [ios, setIos] = useState<PlatformConfig | null>(null);
-  const [baseUrl, setBaseUrl] = useState('');
   const [releasedAt, setReleasedAt] = useState('');
   const [updateMessage, setUpdateMessage] = useState('');
   const [updateTitle, setUpdateTitle] = useState('');
@@ -601,7 +599,6 @@ function AppConfigPanel() {
       const data = await adminFetch<{ appConfig: AppConfig }>('/api/admin/app-config');
       setAndroid(data.appConfig.android);
       setIos(data.appConfig.ios);
-      setBaseUrl(data.appConfig.backend.baseUrl);
       setReleasedAt(toDatetimeLocal(data.appConfig.releasedAt));
       setUpdateMessage(data.appConfig.updateMessage);
       setUpdateTitle(data.appConfig.updateTitle);
@@ -632,7 +629,6 @@ function AppConfigPanel() {
         body: JSON.stringify({
           android,
           ios,
-          backend: { baseUrl: baseUrl.trim() },
           releasedAt: releasedAt ? new Date(releasedAt).toISOString() : null,
           updateMessage: updateMessage.trim(),
           updateTitle: updateTitle.trim(),
@@ -640,7 +636,6 @@ function AppConfigPanel() {
       });
       setAndroid(data.appConfig.android);
       setIos(data.appConfig.ios);
-      setBaseUrl(data.appConfig.backend.baseUrl);
       setReleasedAt(toDatetimeLocal(data.appConfig.releasedAt));
       setStatus('Saved app config. The app reads this on the next launch.');
     } catch (err) {
@@ -697,15 +692,6 @@ function AppConfigPanel() {
               type="datetime-local"
               value={releasedAt}
               onChange={(e) => setReleasedAt(e.target.value)}
-            />
-          </label>
-          <label>
-            Backend base URL
-            <input
-              value={baseUrl}
-              onChange={(e) => setBaseUrl(e.target.value)}
-              placeholder="https://metroconnectbackend.onrender.com"
-              required
             />
           </label>
           <p className="muted">
