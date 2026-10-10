@@ -10,6 +10,27 @@ import quickStationsRouter from './modules/quickStations/quickStations.routes.js
 import releaseNotesRouter from './modules/releaseNotes/releaseNotes.routes.js';
 import usersRouter from './modules/users/users.routes.js';
 
+/** Public prefix on the shared API host, e.g. api.kshitijkhowal.in/metroconnect */
+export const API_MOUNT_PATH = '/metroconnect';
+
+function createApiRouter() {
+  const router = express.Router();
+
+  router.get('/health', (_req, res) => {
+    res.status(200).json({ status: 'ok', service: 'metroconnect-backend' });
+  });
+
+  router.use('/api/auth', authRouter);
+  router.use('/api/admin', adminRouter);
+  router.use('/api/app-config', appConfigRouter);
+  router.use('/api/community', communityRouter);
+  router.use('/api/quick-stations', quickStationsRouter);
+  router.use('/api/release-notes', releaseNotesRouter);
+  router.use('/api/users', usersRouter);
+
+  return router;
+}
+
 export function createApp() {
   const app = express();
 
@@ -26,17 +47,9 @@ export function createApp() {
   );
   app.use(express.json());
 
-  app.get('/health', (_req, res) => {
-    res.status(200).json({ status: 'ok', service: 'metroconnect-backend' });
-  });
-
-  app.use('/api/auth', authRouter);
-  app.use('/api/admin', adminRouter);
-  app.use('/api/app-config', appConfigRouter);
-  app.use('/api/community', communityRouter);
-  app.use('/api/quick-stations', quickStationsRouter);
-  app.use('/api/release-notes', releaseNotesRouter);
-  app.use('/api/users', usersRouter);
+  app.use(API_MOUNT_PATH, createApiRouter());
+  // Unprefixed routes stay so the current app, local admin, and Postman keep working.
+  app.use(createApiRouter());
 
   app.use(errorHandler);
 

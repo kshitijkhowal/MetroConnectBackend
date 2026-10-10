@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     "name": "MetroConnect Backend",
-    "description": "API collection for MetroConnectBackend (Supabase auth + profiles).\n\n## Setup\n1. Import this collection and `MetroConnectBackend.postman_environment.json`.\n2. Select the **MetroConnect Local** environment.\n3. Paste a Google ID token into `googleIdToken` (from the mobile app / Google Sign-In).\n4. Run **Auth → Sign in with Google** — tests save `accessToken`, `refreshToken`, and `userId`.\n\nBase URL defaults to `http://localhost:3000`.",
+    "description": "API collection for MetroConnectBackend (Supabase auth + profiles).\n\n## Setup\n1. Import this collection and both environment files in `postman/`.\n2. Select **MetroConnect Local** or **MetroConnect API**.\n3. Paste a Google ID token into `googleIdToken` (from the mobile app / Google Sign-In).\n4. Run **Auth → Sign in with Google** — tests save `accessToken`, `refreshToken`, and `userId`.\n\nRequests are under `/metroconnect`. **MetroConnect Local** uses `http://localhost:3000`. **MetroConnect API** uses `https://api.kshitijkhowal.in`.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -41,11 +41,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/health",
+              "raw": "{{baseUrl}}/metroconnect/health",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "health"
               ]
             },
@@ -64,11 +65,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/community/contributors",
+              "raw": "{{baseUrl}}/metroconnect/api/community/contributors",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "community",
                 "contributors"
@@ -84,11 +86,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/community/developers",
+              "raw": "{{baseUrl}}/metroconnect/api/community/developers",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "community",
                 "developers"
@@ -109,11 +112,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/release-notes?page=1&limit=10",
+              "raw": "{{baseUrl}}/metroconnect/api/release-notes?page=1&limit=10",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "release-notes"
               ],
@@ -139,11 +143,12 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/release-notes?page=1&limit=10",
+                  "raw": "{{baseUrl}}/metroconnect/api/release-notes?page=1&limit=10",
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "path": [
+                    "metroconnect",
                     "api",
                     "release-notes"
                   ],
@@ -181,11 +186,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/release-notes/{{versionCode}}",
+              "raw": "{{baseUrl}}/metroconnect/api/release-notes/{{versionCode}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "release-notes",
                 "{{versionCode}}"
@@ -200,11 +206,12 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/release-notes/{{versionCode}}",
+                  "raw": "{{baseUrl}}/metroconnect/api/release-notes/{{versionCode}}",
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "path": [
+                    "metroconnect",
                     "api",
                     "release-notes",
                     "{{versionCode}}"
@@ -236,9 +243,15 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/release-notes?page=1&limit=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "release-notes"],
+              "raw": "{{baseUrl}}/metroconnect/api/release-notes?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "metroconnect",
+                "api",
+                "release-notes"
+              ],
               "query": [
                 {
                   "key": "page",
@@ -262,9 +275,16 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/release-notes/{{versionCode}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "release-notes", "{{versionCode}}"]
+              "raw": "{{baseUrl}}/metroconnect/api/release-notes/{{versionCode}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "metroconnect",
+                "api",
+                "release-notes",
+                "{{versionCode}}"
+              ]
             },
             "description": "Fetch a single release note by Android versionCode. No auth required."
           },
@@ -320,11 +340,12 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/auth/google",
+              "raw": "{{baseUrl}}/metroconnect/api/auth/google",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "auth",
                 "google"
@@ -379,11 +400,12 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/auth/refresh",
+              "raw": "{{baseUrl}}/metroconnect/api/auth/refresh",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "auth",
                 "refresh"
@@ -409,11 +431,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/auth/me",
+              "raw": "{{baseUrl}}/metroconnect/api/auth/me",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "auth",
                 "me"
@@ -439,11 +462,12 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/auth/logout",
+              "raw": "{{baseUrl}}/metroconnect/api/auth/logout",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "auth",
                 "logout"
@@ -474,11 +498,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/users/me",
+              "raw": "{{baseUrl}}/metroconnect/api/users/me",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "users",
                 "me"
@@ -504,11 +529,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "raw": "{{baseUrl}}/metroconnect/api/users/{{userId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "users",
                 "{{userId}}"
@@ -539,11 +565,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/quick-stations",
+              "raw": "{{baseUrl}}/metroconnect/api/quick-stations",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "quick-stations"
               ]
@@ -568,11 +595,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/quick-stations/{{quickStationId}}",
+              "raw": "{{baseUrl}}/metroconnect/api/quick-stations/{{quickStationId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "quick-stations",
                 "{{quickStationId}}"
@@ -629,11 +657,12 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/quick-stations",
+              "raw": "{{baseUrl}}/metroconnect/api/quick-stations",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "quick-stations"
               ]
@@ -672,11 +701,12 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/quick-stations/{{quickStationId}}",
+              "raw": "{{baseUrl}}/metroconnect/api/quick-stations/{{quickStationId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "quick-stations",
                 "{{quickStationId}}"
@@ -702,11 +732,12 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/quick-stations/{{quickStationId}}",
+              "raw": "{{baseUrl}}/metroconnect/api/quick-stations/{{quickStationId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "metroconnect",
                 "api",
                 "quick-stations",
                 "{{quickStationId}}"

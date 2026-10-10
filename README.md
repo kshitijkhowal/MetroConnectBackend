@@ -29,6 +29,8 @@ npm run dev
 
 ## Endpoints
 
+Public host paths use a `/metroconnect` prefix (`https://api.kshitijkhowal.in/metroconnect/api/...`). The same routes are also mounted without that prefix so existing clients keep working.
+
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
 | `GET` | `/health` | — | Liveness |
@@ -71,9 +73,12 @@ The admin UI proxies `/api` to `http://localhost:3000`.
 
 ## Postman
 
-Import both files from [`postman/`](postman/):
+Import the files from [`postman/`](postman/):
 
 1. `MetroConnectBackend.postman_collection.json`
-2. `MetroConnectBackend.postman_environment.json`
+2. `MetroConnectBackend.postman_environment.json` — local, `http://localhost:3000`
+3. `MetroConnectAPI.postman_environment.json` — `https://api.kshitijkhowal.in`
 
-Then select **MetroConnect Local**, set `googleIdToken`, and run **Auth → Sign in with Google** (tokens are saved automatically).
+Requests use the `/metroconnect` prefix, for example `{{baseUrl}}/metroconnect/health`.
+
+Then select **MetroConnect Local** or **MetroConnect API**, set `googleIdToken`, and run **Auth → Sign in with Google** (tokens are saved automatically).
